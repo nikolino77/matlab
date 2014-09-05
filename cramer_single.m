@@ -1,15 +1,10 @@
-close all hidden;
-clear all;
+function single = cramer_single(t_r, name)
+
 
 t_d_min = 1e-9;
 t_d_max = 1001e-9;
-t_d_bin = 100;
+t_d_bin = 50;
 t_d_pitch = (t_d_max - t_d_min)/t_d_bin; % 100e-9
-
-t_r_min = 1e-12;
-t_r_max = 301e-12;
-t_r_bin = 30;
-t_r_pitch = (t_r_max - t_r_min)/t_r_bin; % 10e-12
 
 s_min = 1e-12;
 s_max = 501e-12;
@@ -28,11 +23,8 @@ tsk = 2e-9; % media trans
 cer_min = theta; % cer min
 cer_mean = theta + 2*l; % cer min
 
-CTRscan = zeros(t_r_bin, t_d_bin, s_bin, LY_bin);
+CTRscan = zeros(t_d_bin, s_bin, LY_bin);
 
-for i=1:t_r_bin
-disp('Evento i : ');
-disp(i);
 for n=1:t_d_bin
 %disp('Evento n : ');
 %disp(n);
@@ -40,12 +32,11 @@ for l=1:s_bin
 %disp('Evento l : ');
 %disp(l);
 for m=1:LY_bin
-disp('Evento m : ');
-disp(m);
+%disp('Evento m : ');
+%disp(m);
 binning = 0.1e-12;
 LY = LY_min + m*LY_pitch; % Light Yield 
 t_d = t_d_min + n*t_d_pitch; % decay time
-t_r = t_r_min + i*t_r_pitch; % rise time
 s = s_min + l*s_pitch; % sigma trans
 
 a = LY / CY * (1 / (1 + LY/CY)); % normalization light yield
@@ -88,11 +79,11 @@ dFSnum=-gradient(FSnum)/binning;
 
 gpd=find(FSnum(1:length(FSnum))~=0);
 I=sum(1./FSnum(gpd).*dFSnum(gpd).^2*binning); %Fisher information
-CTRscan(i,n,l,m)=sqrt(1/I*1/(LY+CY))*3.33*1e12; %CTR
+CTRscan(n,l,m)=sqrt(1/I*1/(LY+CY))*3.33*1e12; %CTR
 
 end
 %CTRscan
 end
 end
-end
-save('cramer_tot.mat', 'CTRSCAN');
+
+save(name, 'CTRscan');

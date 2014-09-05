@@ -40,8 +40,8 @@ for l=1:s_bin
 %disp('Evento l : ');
 %disp(l);
 for m=1:LY_bin
-disp('Evento m : ');
-disp(m);
+%disp('Evento m : ');
+%disp(m);
 binning = 0.1e-12;
 LY = LY_min + m*LY_pitch; % Light Yield 
 t_d = t_d_min + n*t_d_pitch; % decay time
