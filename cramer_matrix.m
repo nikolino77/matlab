@@ -104,4 +104,4 @@ end
 end
 end
 end
-save('cramer_tot_1_51_ps.mat', 'CTRSCAN');
+save('cramer_tot_1_51_ps.mat', 'CTRscan');
