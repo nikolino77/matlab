@@ -7,8 +7,8 @@ t_d_bin = 100;
 t_d_pitch = (t_d_max - t_d_min)/t_d_bin; % 100e-9
 
 t_r_min = 1e-12;
-t_r_max = 301e-12;
-t_r_bin = 30;
+t_r_max = 51e-12;
+t_r_bin = 5;
 t_r_pitch = (t_r_max - t_r_min)/t_r_bin; % 10e-12
 
 s_min = 1e-12;
@@ -16,11 +16,17 @@ s_max = 501e-12;
 s_bin = 50;
 s_pitch = (s_max - s_min)/s_bin; % 10e-12;
 
-LY_min = 100;
-LY_max = 10100;
-LY_bin = 20;
-LY_pitch = (LY_max - LY_min)/LY_bin; % 500;
-CY = 30;
+%LY_min = 100;
+%LY_max = 10100;
+%LY_bin = 20;
+%LY_pitch = (LY_max - LY_min)/LY_bin; % 500;
+
+CY_min = 1;
+CY_max = 50;
+CY_bin = 50;
+CY_pitch = (CY_max - CY_min)/CY_bin; % 500;
+
+LY = 4000;
 
 l = 10.0e-12; % cerenkov sigma
 theta = 200e-12; % gamma time, parameter CR LB
@@ -34,16 +40,19 @@ for i=1:t_r_bin
 disp('Evento i : ');
 disp(i);
 for n=1:t_d_bin
-%disp('Evento n : ');
-%disp(n);
+disp('Evento n : ');
+disp(n);
 for l=1:s_bin
 %disp('Evento l : ');
 %disp(l);
 for m=1:LY_bin
-disp('Evento m : ');
-disp(m);
+%disp('Evento m : ');
+%disp(m);
 binning = 0.1e-12;
-LY = LY_min + m*LY_pitch; % Light Yield 
+
+%LY = LY_min + m*LY_pitch; % Light Yield 
+CY = CY_min + m*CY_pitch; % Cerenkov Yield 
+
 t_d = t_d_min + n*t_d_pitch; % decay time
 t_r = t_r_min + i*t_r_pitch; % rise time
 s = s_min + l*s_pitch; % sigma trans
@@ -72,7 +81,7 @@ FS=@(t) (1.0/(sqrt(l*l+s*s)))*sqrt(pi/2)*l*s*norm_c*b*norm_irf*...
           (erf((t_r*(t-theta-tsk)-s*s)/(sqrt(2)*s*t_r))+...
 	  erf((t_r*tsk +s*s)/(sqrt(2)*s*t_r))));
 
-x=0*s:binning:100e-9;
+x=0*s:binning:300e-9;
 %figure;
 %hold on;
 %plot(x,FS(x)); 
@@ -95,4 +104,4 @@ end
 end
 end
 end
-save('cramer_tot.mat', 'CTRSCAN');
+save('cramer_tot_1_51_ps.mat', 'CTRSCAN');
